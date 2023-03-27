@@ -49,18 +49,29 @@ Examples:
     // [{name: 'Elie', title:'instructor'}, {name: 'Tim', title:'instructor'}, {name: 'Matt', title:'instructor'}, {name: 'Colt', title:'instructor'}]
 
 */
+//*
 function addKeyAndValue(arr, key, value) {
-    const newArr = arr.map(function (val) {
-        const _value = Object.create(null);
-        const newObj = Object.assign(val);
+    arr.forEach(function (val) {
+        val[key] = value;
+    });
+    return arr;
+}
+//*/
+/*
+function addKeyAndValue(arr, key, value) {
+    let newArr = arr.map(function (val) {
+        let _value = Object.create(null);
+        let newObj = Object.assign(val);
         _value.value = value;
         Object.defineProperty(newObj, key, _value);
         //console.log(newObj);
-        return newObj;
+        //return newObj;
+        newObj;
     });
     console.log(newArr);
     return newArr;
 }
+//*/
 
 /*
 Write a function called vowelCount which accepts a string and returns an object with the keys as the vowel and the values as the number of times the vowel appears in the string. This function should be case insensitive so a lowercase letter and uppercase letter should count
@@ -73,57 +84,57 @@ Examples:
     vowelCount('I Am awesome and so are you') // {i: 1, a: 4, e: 3, o: 3, u: 1};
 */
 function vowelCount(str) {
-    let newObj = Object.create(null);
+    let newObj = {};
     Array.from(str).forEach(function (char) {
         //console.log(char);
         //each case checks if the property exists, and either creates it or adds one to it
         switch (char) {
             case "a":
-                //console.log("wut");
-                if (Object.hasOwn(newObj, "a")) {
-                    newObj.a += 1;
+                if (newObj["a"]) {
+                    newObj["a"]++;
                 }
                 else {
-                    Object.defineProperty(newObj, "a", { value: 1, writable: true });
-                    //console.log(newObj);
+                    newObj["a"] = 1;
                 }
                 break;
             case "e":
-                if (Object.hasOwn(newObj, "e")) {
-                    newObj.e += 1;
+                if (newObj["e"]) {
+                    newObj["e"]++;
                 }
                 else {
-                    Object.defineProperty(newObj, "e", { value: 1, writable: true });
+                    newObj["e"] = 1;
                 }
                 break;
             case "i":
-                if (Object.hasOwn(newObj, "i")) {
-                    newObj.i += 1;
+                if (newObj["i"]) {
+                    newObj["i"]++;
                 }
                 else {
-                    Object.defineProperty(newObj, "i", { value: 1, writable: true });
+                    newObj["i"] = 1;
                 }
                 break;
             case "o":
-                if (Object.hasOwn(newObj, "o")) {
-                    newObj.o += 1;
+                if (newObj["o"]) {
+                    newObj["o"]++;
                 }
                 else {
-                    Object.defineProperty(newObj, "o", { value: 1, writable: true });
+                    newObj["o"] = 1;
                 }
                 break;
             case "u":
-                if (Object.hasOwn(newObj, "u")) {
-                    newObj.u += 1;
+                if (newObj["u"]) {
+                    newObj["u"]++;
                 }
                 else {
-                    Object.defineProperty(newObj, "u", { value: 1, writable: true });
+                    newObj["u"] = 1;
                 }
+                break;
+            default:
                 break;
         }
     });
     console.log(newObj);
-    return Object.assign(newObj);
+    return newObj;
 }
 
 /*
@@ -134,7 +145,11 @@ Examples:
     doubleValuesWithMap([1,-2,-3]) // [2,-4,-6]
 */
 
-function doubleValuesWithMap(arr) { }
+function doubleValuesWithMap(arr) {
+    return arr.map(function (val) {
+        return val * 2;
+    });
+}
 
 /*
 Write a function called valTimesIndex which accepts an array and returns a new array with each value multiplied by the index it is currently at in the array.
@@ -145,7 +160,9 @@ Examples:
 */
 
 function valTimesIndex(arr) {
-
+    return arr.map(function (val, i) {
+        return val * i;
+    });
 }
 
 /*
@@ -156,7 +173,9 @@ Examples:
 */
 
 function extractKey(arr, key) {
-
+    return arr.map(function (val) {
+        return val[key];
+    });
 }
 
 /*
@@ -167,7 +186,9 @@ Examples:
 */
 
 function extractFullName(arr) {
-
+    return arr.map(function (val) {
+        return `${val["first"]} ${val["last"]}`;
+    });
 }
 
 /*
@@ -177,8 +198,11 @@ Examples:
     filterByValue([{first: 'Elie', last:"Schoppik"}, {first: 'Tim', last:"Garcia", isCatOwner: true}, {first: 'Matt', last:"Lane"}, {first: 'Colt', last:"Steele", isCatOwner: true}], 'isCatOwner') // [{first: 'Tim', last:"Garcia", isCatOwner: true}, {first: 'Colt', last:"Steele", isCatOwner: true}]
 */
 
-function filterByValue(arr, key) { }
-
+function filterByValue(arr, key) {
+    return arr.filter(function (val) {
+        return val[key];
+    });
+}
 /*
 Write a function called find which accepts an array and a value and returns the first element in the array that has the same value as the second parameter or undefined if the value is not found in the array.
 
@@ -187,7 +211,15 @@ Examples:
     find([1,2,3,4,5], 10) // undefined
 */
 
-function find(arr, searchValue) { }
+function find(arr, searchValue) {
+    let num;
+    arr.forEach(function (val, i) {
+        if (val === searchValue && num === undefined) {
+            num = i + 1;
+        }
+    });
+    return num;
+}
 
 /*
 Write a function called findInObj which accepts an array of objects, a key, and some value to search for and returns the first found value in the array.
@@ -196,7 +228,11 @@ Examples:
     findInObj([{first: 'Elie', last:"Schoppik"}, {first: 'Tim', last:"Garcia", isCatOwner: true}, {first: 'Matt', last:"Lane"}, {first: 'Colt', last:"Steele", isCatOwner: true}], 'isCatOwner',true) // {first: 'Tim', last:"Garcia", isCatOwner: true}
 */
 
-function findInObj(arr, key, searchValue) { }
+function findInObj(arr, key, searchValue) {
+    return arr.filter(function (val) {
+        return val[key] === searchValue;
+    })[0];
+}
 
 /*
 Write a function called removeVowels which accepts a string and returns a new string with all of the vowels (both uppercased and lowercased) removed. Every character in the new string should be lowercased.
@@ -207,7 +243,11 @@ Examples:
     removeVowels('ZZZZZZ') // ('zzzzzz')
 */
 
-function removeVowels(str) { }
+function removeVowels(str) {
+    return Array.from(str).filter(function (val) {
+        return (val.toLowerCase() != "a" && val.toLowerCase() != "e" && val.toLowerCase() != "i" && val.toLowerCase() != "o" && val.toLowerCase() != "u");
+    }).join("").toLowerCase();
+}
 
 /*
 Write a function called doubleOddNumbers which accepts an array and returns a new array with all of the odd numbers doubled (HINT - you can use map and filter to double and then filter the odd numbers).
@@ -217,4 +257,8 @@ Examples:
     doubleOddNumbers([4,4,4,4,4]) // []
 */
 
-function doubleOddNumbers(arr) { }
+function doubleOddNumbers(arr) {
+    return doubleValuesWithMap(arr.filter(function (val) {
+        return val % 2 === 1;
+    }));
+}
